@@ -159,7 +159,7 @@ if(!isTouchDevice){
 }
 function bindHover(){
   if(isTouchDevice) return;
-  document.querySelectorAll('a,button,.nav-email,.hr-skill,.proj-card,.pd-btn,.icon-back-btn,.pd-back,.social-item,.cv-side,.pd-stack-tag,.ab-contact-email,.ab-contact-social,.proj-h-screenshot,.proj-see-all-btn,.proj-h-btn').forEach(el=>{
+  document.querySelectorAll('a,button,.nav-email,.hr-skill,.proj-card,.pd-btn,.icon-back-btn,.pd-back,.social-item,.cv-side,.pd-stack-tag,.ab-contact-email,.ab-contact-social,.proj-h-screenshot,.proj-see-all-btn,.proj-h-btn,.form-input,.form-textarea,.form-submit-btn').forEach(el=>{
     el.addEventListener('mouseenter',()=>curEl.classList.add('hover'));
     el.addEventListener('mouseleave',()=>curEl.classList.remove('hover'));
   });
@@ -202,7 +202,7 @@ function launch() {
     loader.style.display = 'none';
     if (app) { app.style.display = 'block'; app.style.opacity = '0'; }
     initCardThumbs(); buildProjectCards(); initScrollSystem();
-    initScrollReveal(); initGlobe(); buildQuote(); bindHover(); initCareerLine();
+    initScrollReveal(); initGlobe(); buildQuote(); bindHover(); initCareerLine(); initContactForm();
     requestAnimationFrame(() => requestAnimationFrame(() => {
       if (app) { app.style.transition = 'opacity 0.7s ease'; app.style.opacity = '1'; }
     }));
@@ -212,7 +212,21 @@ function launch() {
 // ═══════════════════════════════════════════════════════════════════
 // UTILITIES
 // ═══════════════════════════════════════════════════════════════════
-function copyEmail(){navigator.clipboard.writeText('kotakshashidharreddy@gmail.com').then(()=>{const b=document.getElementById('emailBtn');b.classList.add('copied');setTimeout(()=>b.classList.remove('copied'),2000);});}
+function copyEmail(e){
+  if(e) e.preventDefault();
+  navigator.clipboard.writeText('kotashashidharreddy1@gmail.com').then(()=>{
+    const b=document.getElementById('emailBtn');
+    if(b){
+      b.classList.add('copied');
+      setTimeout(()=>b.classList.remove('copied'),2000);
+    }
+    const c=document.getElementById('abEmailCopied');
+    if(c){
+      c.classList.add('show');
+      setTimeout(()=>c.classList.remove('show'),2000);
+    }
+  }).catch(()=>{});
+}
 function downloadCV(e){
   if(e)e.preventDefault();
   let modal=document.getElementById('cvComingSoon');
@@ -238,7 +252,7 @@ window.closeCVPopup=function(){
 };
 window.copyAbEmail=function(e){
   e.preventDefault();
-  navigator.clipboard.writeText('kotakshashidharreddy@gmail.com').then(()=>{
+  navigator.clipboard.writeText('kotashashidharreddy1@gmail.com').then(()=>{
     const c=document.getElementById('abEmailCopied'); if(!c)return;
     c.classList.add('show'); setTimeout(()=>c.classList.remove('show'),2000);
   }).catch(()=>{});
@@ -648,6 +662,94 @@ function initGlobe(){
   let raf;
   function loop(){raf=requestAnimationFrame(loop);const w=canvas.width,h=canvas.height;if(!w||!h)return;ctx.clearRect(0,0,w,h);const cx=w/2,cy=h/2,R=Math.min(w,h)*0.48;if(!isDragging){rotY+=velY;velY+=(-0.005-velY)*0.02;velX*=0.95;rotX+=velX;rotX+=(0.3-rotX)*0.01;}drawGrid(cx,cy,R);drawSkills(cx,cy,R);}
   loop();
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// CONTACT FORM HANDLING
+// ═══════════════════════════════════════════════════════════════════
+function initContactForm() {
+  const form = document.getElementById('contact-form');
+  if (!form) {
+    console.warn('Contact form not found');
+    return;
+  }
+
+  console.log('✓ Contact form initialized');
+  form.addEventListener('submit', handleFormSubmit);
+}
+
+function handleFormSubmit(e) {
+  e.preventDefault();
+  console.log('📤 Form submission started');
+
+  const form = e.target;
+  const submitBtn = document.getElementById('contact-submit-btn');
+  const successMsg = document.getElementById('success-message');
+  const errorMsg = document.getElementById('error-message');
+  
+  // Show loading state
+  const btnText = submitBtn.querySelector('.btn-text');
+  const originalText = btnText.textContent;
+  btnText.textContent = 'Sending...';
+  submitBtn.disabled = true;
+  
+  // Hide previous messages
+  successMsg.style.display = 'none';
+  errorMsg.style.display = 'none';
+
+  // Collect form data
+  const formData = new FormData(form);
+  
+  // Send to Formspree
+  console.log('📮 Sending to Formspree...');
+  fetch(form.action, {
+    method: 'POST',
+    body: formData,
+    headers: {
+      'Accept': 'application/json'
+    }
+  })
+  .then(response => {
+    console.log('📨 Response received:', response.status);
+    if (response.ok) {
+      console.log('✅ Success! Form submitted to Formspree');
+      
+      // Show success message
+      successMsg.style.display = 'block';
+      console.log('✓ Success message displayed');
+      
+      // Reset form
+      form.reset();
+      console.log('✓ Form reset');
+      
+      // Auto-hide success message after 5 seconds
+      setTimeout(() => {
+        successMsg.style.display = 'none';
+        console.log('✓ Success message hidden');
+      }, 5000);
+    } else {
+      throw new Error(`HTTP ${response.status}`);
+    }
+  })
+  .catch(error => {
+    console.error('❌ Error submitting form:', error);
+    
+    // Show error message
+    errorMsg.style.display = 'block';
+    console.log('✓ Error message displayed');
+    
+    // Auto-hide error message after 5 seconds
+    setTimeout(() => {
+      errorMsg.style.display = 'none';
+      console.log('✓ Error message hidden');
+    }, 5000);
+  })
+  .finally(() => {
+    // Restore button state
+    btnText.textContent = originalText;
+    submitBtn.disabled = false;
+    console.log('✓ Button restored');
+  });
 }
 
 // ═══════════════════════════════════════════════════════════════════

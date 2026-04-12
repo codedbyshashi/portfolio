@@ -39,7 +39,7 @@
     <a class="social-item" href="https://www.linkedin.com/in/shashidhar-reddy-kota-730176344/" target="_blank">
       <span class="social-icon"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></span>
     </a>
-    <a class="social-item" href="mailto:kotakshashidharreddy@gmail.com">
+    <a class="social-item" href="mailto:kotashashidharreddy1@gmail.com">
       <span class="social-icon"><svg viewBox="0 0 24 24"><path d="M3 5h18v14H3z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></span>
     </a>
     <a class="cv-side" href="#" onclick="downloadCV(event)">
@@ -56,7 +56,7 @@
     <div class="nav-email-wrap">
       <button class="nav-email" id="emailBtn" onclick="copyEmail()">
         <span class="copy-flash">Copied!</span>
-        <span class="nav-email-text">kotakshashidharreddy@gmail.com</span>
+        <span class="nav-email-text">kotashashidharreddy1@gmail.com</span>
       </button>
       <span class="nav-email-hint">Click to copy email</span>
     </div>
@@ -83,7 +83,7 @@
             <div class="hc-ring"></div>
             <img class="hc-photo" src="images/me.png" alt="Kota Shashidhar Reddy" />
           </div>
-          <a class="hc-contact-bar" href="mailto:kotakshashidharreddy@gmail.com">GET IN TOUCH</a>
+          <button class="hc-contact-bar" onclick="scrollToSection('contact')">GET IN TOUCH</button>
         </div>
         <div class="home-right">
           <p class="hr-an">Full Stack Developer</p>
@@ -255,37 +255,74 @@
     </section>
 
     <section class="scroll-section section-contact ab-section--contact" id="section-contact">
-      <div class="ab-contact-grid">
-        <div class="ab-contact-col ab-contact-left">
-          <div class="ab-contact-name">
-            <span class="ab-contact-name-blue">KOTA</span>
-            <span class="ab-contact-name-white">SHASHIDHAR REDDY</span>
+      <div class="contact-wrapper">
+        <div class="contact-container">
+          <!-- CONTACT FORM -->
+          <div class="contact-form-section">
+            <h2 class="contact-form-title">GET IN TOUCH</h2>
+            <div id="success-message" class="success-message" style="display:none;">
+              ✓ Message sent successfully! I'll get back to you soon.
+            </div>
+            <div id="error-message" class="error-message" style="display:none;">
+              ✗ Failed to send message. Please try again.
+            </div>
+            <form id="contact-form" class="contact-form" action="https://formspree.io/f/mqewzyeq" method="POST">
+              <div class="form-group">
+                <label for="contact-name" class="form-label">Name</label>
+                <input type="text" id="contact-name" name="name" class="form-input" placeholder="Your name" required>
+                <span id="error-name" class="form-error" style="display:none; color: #ff4d4d; font-size: 0.8rem; margin-top: 0.3rem;"></span>
+              </div>
+              <div class="form-group">
+                <label for="contact-email" class="form-label">Email</label>
+                <input type="email" id="contact-email" name="email" class="form-input" placeholder="your@email.com" required>
+                <span id="error-email" class="form-error" style="display:none; color: #ff4d4d; font-size: 0.8rem; margin-top: 0.3rem;"></span>
+              </div>
+              <div class="form-group">
+                <label for="contact-message" class="form-label">Message</label>
+                <textarea id="contact-message" name="message" class="form-textarea" placeholder="Your message..." rows="5" required></textarea>
+                <span id="error-message-field" class="form-error" style="display:none; color: #ff4d4d; font-size: 0.8rem; margin-top: 0.3rem;"></span>
+              </div>
+              <button type="submit" class="form-submit-btn" id="contact-submit-btn">
+                <span class="btn-text">Send Message</span>
+                <span class="btn-arrow">↗</span>
+              </button>
+            </form>
           </div>
-          <div class="ab-contact-info-group">
-            <div class="ab-contact-label">Email</div>
-            <a class="ab-contact-email" id="abContactEmail" href="mailto:kotakshashidharreddy@gmail.com">kotakshashidharreddy@gmail.com</a>
-            <span class="ab-contact-copied" id="abEmailCopied">Copied!</span>
-          </div>
-        </div>
-        <div class="ab-contact-col ab-contact-mid">
-          <div class="ab-contact-label">Social</div>
-          <a class="ab-contact-social" href="https://github.com/codedbyshashi" target="_blank">
-            <span class="ab-contact-social-row">Github <span class="ab-social-arrow">&#8599;</span></span>
-            <span class="ab-social-line"></span>
-          </a>
-          <a class="ab-contact-social" href="https://www.linkedin.com/in/shashidhar-reddy-kota-730176344/" target="_blank">
-            <span class="ab-contact-social-row">Linkedin <span class="ab-social-arrow">&#8599;</span></span>
-            <span class="ab-social-line"></span>
-          </a>
-          <a class="ab-contact-social" href="mailto:kotakshashidharreddy@gmail.com">
-            <span class="ab-contact-social-row">Email <span class="ab-social-arrow">&#8599;</span></span>
-            <span class="ab-social-line"></span>
-          </a>
-        </div>
-        <div class="ab-contact-col ab-contact-right">
-          <div class="ab-contact-footer">
-            <div class="ab-contact-credit">Designed and Developed by <span class="ab-contact-name-blue">KOTA</span> <span class="ab-contact-name-white">SHASHIDHAR REDDY</span></div>
-            <div class="ab-contact-copy">&#169; 2026</div>
+
+          <!-- CONTACT INFO -->
+          <div class="ab-contact-grid">
+            <div class="ab-contact-col ab-contact-left">
+              <div class="ab-contact-name">
+                <span class="ab-contact-name-blue">KOTA</span>
+                <span class="ab-contact-name-white">SHASHIDHAR REDDY</span>
+              </div>
+              <div class="ab-contact-info-group">
+                <div class="ab-contact-label">Email</div>
+                <a class="ab-contact-email" id="abContactEmail" href="mailto:kotashashidharreddy1@gmail.com" onclick="copyEmail(event)">kotashashidharreddy1@gmail.com</a>
+                <span class="ab-contact-copied" id="abEmailCopied">Copied!</span>
+              </div>
+            </div>
+            <div class="ab-contact-col ab-contact-mid">
+              <div class="ab-contact-label">Social</div>
+              <a class="ab-contact-social" href="https://github.com/codedbyshashi" target="_blank">
+                <span class="ab-contact-social-row">Github <span class="ab-social-arrow">&#8599;</span></span>
+                <span class="ab-social-line"></span>
+              </a>
+              <a class="ab-contact-social" href="https://www.linkedin.com/in/shashidhar-reddy-kota-730176344/" target="_blank">
+                <span class="ab-contact-social-row">Linkedin <span class="ab-social-arrow">&#8599;</span></span>
+                <span class="ab-social-line"></span>
+              </a>
+              <a class="ab-contact-social" href="mailto:kotashashidharreddy1@gmail.com">
+                <span class="ab-contact-social-row">Email <span class="ab-social-arrow">&#8599;</span></span>
+                <span class="ab-social-line"></span>
+              </a>
+            </div>
+            <div class="ab-contact-col ab-contact-right">
+              <div class="ab-contact-footer">
+                <div class="ab-contact-credit">Designed and Developed by <span class="ab-contact-name-blue">KOTA</span> <span class="ab-contact-name-white">SHASHIDHAR REDDY</span></div>
+                <div class="ab-contact-copy">&#169; 2026</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
