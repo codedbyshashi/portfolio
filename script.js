@@ -213,7 +213,29 @@ function launch() {
 // UTILITIES
 // ═══════════════════════════════════════════════════════════════════
 function copyEmail(){navigator.clipboard.writeText('kotakshashidharreddy@gmail.com').then(()=>{const b=document.getElementById('emailBtn');b.classList.add('copied');setTimeout(()=>b.classList.remove('copied'),2000);});}
-function downloadCV(e){if(e)e.preventDefault();alert('Add your CV file as "cv_kota_shashidhar_reddy.pdf" next to this HTML file!');}
+function downloadCV(e){
+  if(e)e.preventDefault();
+  let modal=document.getElementById('cvComingSoon');
+  if(!modal){
+    modal=document.createElement('div');
+    modal.id='cvComingSoon';
+    modal.innerHTML=`<div class="cv-popup-bg"></div><div class="cv-popup-card"><button class="cv-popup-close" onclick="closeCVPopup()">&#10005;</button><div class="cv-popup-label">CV</div><div class="cv-popup-title">Coming Soon</div><div class="cv-popup-text">Resume download will be available here once the final version is added.</div></div>`;
+    document.body.appendChild(modal);
+    modal.querySelector('.cv-popup-bg').addEventListener('click',closeCVPopup);
+    if(!isTouchDevice){
+      const closeBtn=modal.querySelector('.cv-popup-close');
+      closeBtn.addEventListener('mouseenter',()=>curEl.classList.add('hover'));
+      closeBtn.addEventListener('mouseleave',()=>curEl.classList.remove('hover'));
+    }
+  }
+  modal.classList.add('cv-popup-open');
+  document.body.style.overflow='hidden';
+}
+window.closeCVPopup=function(){
+  const modal=document.getElementById('cvComingSoon');
+  if(modal)modal.classList.remove('cv-popup-open');
+  document.body.style.overflow='';
+};
 window.copyAbEmail=function(e){
   e.preventDefault();
   navigator.clipboard.writeText('kotakshashidharreddy@gmail.com').then(()=>{
