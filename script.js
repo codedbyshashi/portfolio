@@ -141,7 +141,7 @@ const PROJECTS=[
   {name:'HR Workflow Designer',category:'Full Stack',desc:'Low-code workflow engine with schema-driven architecture enabling dynamic form generation and conditional logic without hardcoding. Implements validation engine, workflow simulation, and extensible node system for unlimited workflow complexity without core modifications.',stack:['React','Spring Boot','TypeScript','JSON Schema'],github:'https://github.com/codedbyshashi/HR-WORKFLOW',demo:'https://hr-workflow-khaki.vercel.app/',screenshot:'images/project2.png'},
   {name:'Campus Digital Complaint Management System',category:'Full Stack',desc:'Role-based complaint triage system handling SLA-driven escalation. Implements JWT-based role separation, real-time notifications via Server-Sent Events, and state machine workflow ensuring audit trail compliance and predictable service delivery.',stack:['Spring Boot','React','MySQL','JWT'],github:'https://github.com/codedbyshashi/Campus-Digital-Complaint-Management',demo:'#',screenshot:'images/project3.png'},
   {name:'AI Image Enhancement Engine',category:'AI',desc:'End-to-end image processing pipeline leveraging deep learning for quality restoration. Processes multi-format input with adaptive preprocessing, neural upscaling, and artifact mitigation across diverse image characteristics.',stack:['Python','TensorFlow','OpenCV','Deep Learning'],github:'https://github.com/codedbyshashi/AI-IMAGE-ENHANCER',demo:'#',screenshot:'images/project4.png'},
-];
+]; 
 
 // ═══════════════════════════════════════════════════════════════════
 // CURSOR
