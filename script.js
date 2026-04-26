@@ -271,6 +271,12 @@ function buildQuote(){
   if(!el||el.dataset.built)return; el.dataset.built='1'; el.textContent=FULL_QUOTE;
 }
 
+function formatProjectName(p){
+  if(p.nameStyle) return p.nameStyle;
+  const words=p.name.split(' ');
+  return words.length>1 ? `${words[0]} <span style="color:var(--blue)">${words.slice(1).join(' ')}</span>` : p.name;
+}
+
 // ═══════════════════════════════════════════════════════════════════
 // BUILD HORIZONTAL PROJECT CARDS
 // ═══════════════════════════════════════════════════════════════════
@@ -285,7 +291,7 @@ function buildProjectCards(){
       <div class="proj-h-num">${String(i+1).padStart(2,'0')}</div>
       <div class="proj-h-top">
         <div class="proj-h-category">${p.category}</div>
-        <div class="proj-h-name">${p.nameStyle||(()=>{const w=p.name.split(' ');return w.length>1?w[0]+' <span style="color:var(--blue)">'+w.slice(1).join(' ')+'</span>':p.name;})()} </div>
+        <div class="proj-h-name">${formatProjectName(p)}</div>
       </div>
       <div class="proj-h-tools-label">Tools and features</div>
       <div class="proj-h-tags">${tags}</div>
@@ -309,6 +315,32 @@ function buildProjectCards(){
     track.appendChild(card);
   });
   initHorizontalScroll();
+  bindHover();
+}
+
+function buildProjectGrid(){
+  const grid=document.getElementById('projGridCards'); if(!grid)return;
+  const rows=[];
+  for(let i=0;i<PROJECTS.length;i+=3) rows.push(PROJECTS.slice(i,i+3));
+  grid.innerHTML=rows.map((row,rowIdx)=>`
+    <div class="proj-row">
+      ${row.map((p,colIdx)=>{
+        const i=rowIdx*3+colIdx;
+        return `
+          <div class="proj-card" onclick="openDetail(${i})">
+            <div class="pc-img">
+              <img class="pc-thumb-img" src="${p.screenshot||''}" alt="${p.name}" onload="this.classList.add('loaded'); this.nextElementSibling.style.display='none';" onerror="this.style.display='none'">
+              <div class="pc-img-inner"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M7 21h10"/><path d="M12 17v4"/></svg></div>
+            </div>
+            <div class="pc-body">
+              <div class="pc-title">${formatProjectName(p)}</div>
+              <div class="pc-tags">${p.stack.map(t=>`<span class="pc-tag">${t}</span>`).join('')}</div>
+            </div>
+          </div>
+        `;
+      }).join('')}
+    </div>
+  `).join('');
   bindHover();
 }
 
@@ -512,7 +544,7 @@ function openProjectsFull(){
   o.style.display='flex'; requestAnimationFrame(()=>o.classList.add('visible'));
   document.getElementById('proj-detail-view').style.display='none';
   document.getElementById('proj-grid-view').style.display='flex';
-  initCardThumbs();
+  buildProjectGrid();
 }
 function closeProjectsFull(){
   const o=document.getElementById('page-projects-full'); if(!o)return;
@@ -521,22 +553,14 @@ function closeProjectsFull(){
 window.closeProjectsFull=closeProjectsFull;
 
 function initCardThumbs(){
-  PROJECTS.forEach((p,i)=>{
-    if(!p.screenshot)return;
-    const img=document.getElementById('pc-ti-'+i);
-    const fb=document.getElementById('pc-fb-'+i); if(!img)return;
-    img.className='pc-thumb-img'; img.src=p.screenshot;
-    img.onload=()=>{img.classList.add('loaded');if(fb)fb.style.display='none';};
-    img.onerror=()=>{img.style.display='none';};
-  });
+  buildProjectGrid();
 }
 
 function openDetail(i){
   const p=PROJECTS[i];
   document.getElementById('pd-crumb-name').textContent=p.name;
   document.getElementById('pd-index').textContent='PROJECT '+String(i+1).padStart(2,'0');
-  const parts=p.name.split(' ');
-  document.getElementById('pd-name').innerHTML=p.nameStyle||(()=>{const w=p.name.split(' ');return w.length>1?w[0]+' <span style="color:var(--blue)">'+w.slice(1).join(' ')+'</span>':p.name;})();
+  document.getElementById('pd-name').innerHTML=formatProjectName(p);
   document.getElementById('pd-desc').textContent=p.desc;
   document.getElementById('pd-stack').innerHTML=p.stack.map(t=>{const url=TECH_LINKS[t];return url?`<a class="pd-stack-tag" href="${url}" target="_blank" rel="noopener">${t}</a>`:`<span class="pd-stack-tag">${t}</span>`;}).join('');
   document.getElementById('pd-demo').href=p.demo;
