@@ -137,10 +137,10 @@ const TECH_LINKS = {
 };
 
 const PROJECTS=[
-  {name:'Campus Digital Complaint Management System',category:'Full Stack',desc:'Built a role-based complaint management system with JWT authentication, SLA tracking, and real-time notifications using Server-Sent Events.',stack:['Spring Boot','React','MySQL','JWT'],github:'https://github.com/codedbyshashi/Campus-Digital-Complaint-Management',demo:'#',screenshot:'images/project1.png'},
-  {name:'Full Stack E-commerce Platform',category:'Full Stack',desc:'Developed a scalable e-commerce platform with authentication, cart, order management, and Stripe payment integration.',stack:['Spring Boot','React','MySQL','Redux','Stripe'],github:'https://github.com/codedbyshashi/sb-ecom',demo:'#',screenshot:'images/project2.png'},
-  {name:'Fake News Detection System',category:'Machine Learning',desc:'Built an ML model to classify news as real or fake using NLP techniques and supervised learning.',stack:['Python','Scikit-learn','Pandas','NLP'],github:'https://github.com/codedbyshashi/Fake-new-detection',demo:'#',screenshot:'images/project3.png'},
-  {name:'AI Image Enhancer',category:'AI',desc:'Developed an AI-based tool to enhance image quality using deep learning and computer vision techniques.',stack:['Python','OpenCV','Deep Learning'],github:'https://github.com/codedbyshashi/AI-IMAGE-ENHANCER',demo:'#',screenshot:'images/project4.png'},
+  {name:'AI Multi-Agent Healthcare System',category:'Full Stack / AI',desc:'Multi-agent clinical assistant orchestrating document analysis, diagnostic recommendations, and evidence retrieval from medical literature. Parses clinical PDFs with layout-aware extraction, streams real-time responses via FastAPI, and implements agent reliability patterns with fallback mechanisms.',stack:['FastAPI','React','LLM Orchestration','PDF Processing'],github:'https://github.com/codedbyshashi/AI-Multi-Agent-Healthcare',demo:'https://multi-agent-healthcare-two.vercel.app',screenshot:'images/project1.png'},
+  {name:'HR Workflow Designer',category:'Full Stack',desc:'Low-code workflow engine with schema-driven architecture enabling dynamic form generation and conditional logic without hardcoding. Implements validation engine, workflow simulation, and extensible node system for unlimited workflow complexity without core modifications.',stack:['React','Spring Boot','TypeScript','JSON Schema'],github:'https://github.com/codedbyshashi/HR-WORKFLOW',demo:'https://hr-workflow-khaki.vercel.app/',screenshot:'images/project2.png'},
+  {name:'Campus Digital Complaint Management System',category:'Full Stack',desc:'Role-based complaint triage system handling SLA-driven escalation. Implements JWT-based role separation, real-time notifications via Server-Sent Events, and state machine workflow ensuring audit trail compliance and predictable service delivery.',stack:['Spring Boot','React','MySQL','JWT'],github:'https://github.com/codedbyshashi/Campus-Digital-Complaint-Management',demo:'#',screenshot:'images/project3.png'},
+  {name:'AI Image Enhancement Engine',category:'AI',desc:'End-to-end image processing pipeline leveraging deep learning for quality restoration. Processes multi-format input with adaptive preprocessing, neural upscaling, and artifact mitigation across diverse image characteristics.',stack:['Python','TensorFlow','OpenCV','Deep Learning'],github:'https://github.com/codedbyshashi/AI-IMAGE-ENHANCER',demo:'#',screenshot:'images/project4.png'},
 ];
 
 // ═══════════════════════════════════════════════════════════════════
@@ -261,11 +261,11 @@ window.copyAbEmail=function(e){
 // ═══════════════════════════════════════════════════════════════════
 // QUOTE
 // ═══════════════════════════════════════════════════════════════════
-const FULL_QUOTE=`I am a Full Stack Developer focused on building scalable web applications using Spring Boot and React. I enjoy designing backend systems that handle real-world workflows efficiently, while also creating clean and responsive user interfaces.
+const FULL_QUOTE=`I design scalable backend systems and frontend architectures that solve real-world engineering problems. My focus spans multi-agent systems, schema-driven architecture, clean REST API design, and production-grade reliability patterns. I approach each system with attention to data flow, failure handling, and maintainable code structure—moving beyond feature delivery to architectural thinking.
 
-My work includes developing systems like a role-based complaint management platform and a full-stack e-commerce application, where I implemented authentication, API design, and structured data handling.
+My projects include a clinical decision support system orchestrating multiple AI agents with real-time streaming, a low-code workflow engine with dynamic form generation and extensible node architecture, and a complaint management platform implementing SLA-driven escalation with event-driven state machines.
 
-I am currently preparing for product-based software engineering roles, with a strong focus on improving problem-solving skills, system design thinking, and writing clean, maintainable code.`;
+I prepare for product-based engineering roles with deep focus on system architecture, LLM orchestration patterns, database design, and clean code practices. I solve problems from first principles, prioritizing clarity, scalability, and production reliability over quick implementations.`;
 function buildQuote(){
   const el=document.getElementById('abQuoteText');
   if(!el||el.dataset.built)return; el.dataset.built='1'; el.textContent=FULL_QUOTE;
