@@ -171,7 +171,7 @@ if(!isTouchDevice){
 }
 function bindHover(){
   if(isTouchDevice) return;
-  document.querySelectorAll('a,button,.nav-email,.hr-skill,.proj-card,.pd-btn,.icon-back-btn,.pd-back,.social-item,.cv-side,.pd-stack-tag,.ab-contact-email,.ab-contact-social,.proj-h-screenshot,.proj-see-all-btn,.proj-h-btn,.form-input,.form-textarea,.form-submit-btn').forEach(el=>{
+  document.querySelectorAll('a,button,.nav-email,.hr-skill,.proj-card,.pd-btn,.icon-back-btn,.pd-back,.social-item,.cv-side,.pd-stack-tag,.ab-contact-email,.ab-contact-social,.proj-h-screenshot,.proj-see-all-btn,.proj-h-btn,.proj-scroll-btn,.form-input,.form-textarea,.form-submit-btn').forEach(el=>{
     el.addEventListener('mouseenter',()=>{curEl.classList.add('hover');curDot.classList.add('hover');});
     el.addEventListener('mouseleave',()=>{curEl.classList.remove('hover');curDot.classList.remove('hover');});
   });
@@ -299,6 +299,7 @@ function buildProjectCards(){
     const card=document.createElement('div'); card.className='proj-h-card';
     const tags=p.stack.map(t=>{const url=TECH_LINKS[t];return url?`<a class="pd-stack-tag" href="${url}" target="_blank" rel="noopener">${t}</a>`:`<span class="pd-stack-tag">${t}</span>`;}).join('');
     const demoDisabled=p.demo==='#';
+    const cleanDesc=p.desc.length>250?p.desc.slice(0,247).trim()+'...':p.desc;
     card.innerHTML=`
       <div class="proj-h-num">${String(i+1).padStart(2,'0')}</div>
       <div class="proj-h-top">
@@ -309,8 +310,19 @@ function buildProjectCards(){
       <div class="proj-h-tags">${tags}</div>
       <div class="proj-h-screenshot" data-idx="${i}">
         <img src="${p.screenshot}" alt="${p.name}" onload="this.classList.add('loaded')" onerror="this.style.display='none'">
+        <div class="proj-hover-info">
+          <div class="proj-hover-kicker">${p.category}</div>
+          <div class="proj-hover-title">${formatProjectName(p)}</div>
+          <p class="proj-hover-desc">${cleanDesc}</p>
+          <div class="proj-hover-tags">${p.stack.map(t=>`<span>${t}</span>`).join('')}</div>
+          <button class="proj-hover-detail" type="button" onclick="openProjectFromSection(${i}, event)">View Details</button>
+        </div>
         <div class="proj-h-corner tl"></div><div class="proj-h-corner tr"></div>
         <div class="proj-h-corner bl"></div><div class="proj-h-corner br"></div>
+      </div>
+      <div class="proj-mobile-info">
+        <p>${cleanDesc}</p>
+        <button type="button" onclick="openProjectFromSection(${i}, event)">View Details</button>
       </div>
       <div class="proj-h-actions">
         <a class="proj-h-btn proj-h-btn-primary" href="${p.demo}" ${!demoDisabled?'target="_blank" rel="noopener"':''} ${demoDisabled?'onclick="return false;" style="opacity:.4;pointer-events:none;"':''}>
@@ -353,23 +365,53 @@ function buildProjectGrid(){
 function initHorizontalScroll(){
   const wrapper=document.getElementById('projHscrollWrapper');
   const track=document.getElementById('projHscrollTrack');
+  const prev=document.getElementById('projScrollPrev');
+  const next=document.getElementById('projScrollNext');
   if(!wrapper||!track)return;
   let hPos=0;
-  function getMax(){ return Math.max(0,track.scrollWidth-wrapper.clientWidth); }
+  function getTrackWidth(){
+    const cards=[...track.querySelectorAll('.proj-h-card')];
+    const style=getComputedStyle(track);
+    const gap=parseFloat(style.columnGap||style.gap)||0;
+    const padLeft=parseFloat(style.paddingLeft)||0;
+    const padRight=parseFloat(style.paddingRight)||0;
+    const cardsWidth=cards.reduce((sum,card)=>sum+card.getBoundingClientRect().width,0);
+    return cardsWidth+(Math.max(0,cards.length-1)*gap)+padLeft+padRight;
+  }
+  function getMax(){ return Math.max(0,getTrackWidth()-wrapper.clientWidth); }
+  function applyPos(){
+    const max=getMax();
+    hPos=Math.max(0,Math.min(max,hPos));
+    track.style.transform=`translateX(-${hPos}px)`;
+    if(prev) prev.disabled=hPos<=2;
+    if(next) next.disabled=hPos>=max-2;
+  }
+  function step(direction){
+    const firstCard=track.querySelector('.proj-h-card');
+    const gap=parseFloat(getComputedStyle(track).columnGap||getComputedStyle(track).gap)||0;
+    const cardStep=firstCard ? firstCard.getBoundingClientRect().width+gap : wrapper.clientWidth*.8;
+    hPos+=direction*cardStep;
+    applyPos();
+  }
+  applyPos();
+  if(prev) prev.onclick=()=>step(-1);
+  if(next) next.onclick=()=>step(1);
   wrapper.addEventListener('wheel',e=>{
     const max=getMax(); if(max<=0)return;
     if((e.deltaY>0&&hPos<max)||(e.deltaY<0&&hPos>0)){
-      e.preventDefault(); hPos=Math.max(0,Math.min(max,hPos+e.deltaY*1.5));
-      track.style.transform=`translateX(-${hPos}px)`;
+      e.preventDefault();
+      hPos+=e.deltaY*1.5;
+      applyPos();
     }
   },{passive:false});
   let tStartX=0,tStartH=0;
   wrapper.addEventListener('touchstart',e=>{tStartX=e.touches[0].clientX;tStartH=hPos;},{passive:true});
   wrapper.addEventListener('touchmove',e=>{
     const dx=tStartX-e.touches[0].clientX;
-    hPos=Math.max(0,Math.min(getMax(),tStartH+dx));
-    track.style.transform=`translateX(-${hPos}px)`;
+    hPos=tStartH+dx;
+    applyPos();
   },{passive:true});
+  window.addEventListener('resize',applyPos);
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -556,6 +598,11 @@ function openProjectsFull(){
   if(rows) rows.scrollTop=0;
   requestAnimationFrame(()=>o.classList.add('visible'));
 }
+function openProjectFromSection(i,e){
+  if(e) e.stopPropagation();
+  openProjectsFull();
+  setTimeout(()=>openDetail(i),120);
+}
 function closeProjectsFull(){
   const o=document.getElementById('page-projects-full'); if(!o)return;
   o.classList.remove('visible');
@@ -566,6 +613,7 @@ function closeProjectsFull(){
   },400);
 }
 window.openProjectsFull=openProjectsFull;
+window.openProjectFromSection=openProjectFromSection;
 window.closeProjectsFull=closeProjectsFull;
 
 function initCardThumbs(){
