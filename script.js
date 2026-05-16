@@ -320,26 +320,17 @@ function buildProjectCards(){
 
 function buildProjectGrid(){
   const grid=document.getElementById('projGridCards'); if(!grid)return;
-  const rows=[];
-  for(let i=0;i<PROJECTS.length;i+=3) rows.push(PROJECTS.slice(i,i+3));
-  grid.innerHTML=rows.map((row,rowIdx)=>`
-    <div class="proj-row">
-      ${row.map((p,colIdx)=>{
-        const i=rowIdx*3+colIdx;
-        return `
-          <div class="proj-card" onclick="openDetail(${i})">
-            <div class="pc-img">
-              <img class="pc-thumb-img" src="${p.screenshot||''}" alt="${p.name}" onload="this.classList.add('loaded'); this.nextElementSibling.style.display='none';" onerror="this.style.display='none'">
-              <div class="pc-img-inner"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M7 21h10"/><path d="M12 17v4"/></svg></div>
-            </div>
-            <div class="pc-body">
-              <div class="pc-title">${formatProjectName(p)}</div>
-              <div class="pc-tags">${p.stack.map(t=>`<span class="pc-tag">${t}</span>`).join('')}</div>
-            </div>
-          </div>
-        `;
-      }).join('')}
-    </div>
+  grid.innerHTML=PROJECTS.map((p,i)=>`
+    <button class="proj-card" type="button" onclick="openDetail(${i})">
+      <div class="pc-img">
+        <img class="pc-thumb-img" src="${p.screenshot||''}" alt="${p.name}" onload="this.classList.add('loaded'); this.nextElementSibling.style.display='none';" onerror="this.style.display='none'">
+        <div class="pc-img-inner"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M7 21h10"/><path d="M12 17v4"/></svg></div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-title">${formatProjectName(p)}</div>
+        <div class="pc-tags">${p.stack.map(t=>`<span class="pc-tag">${t}</span>`).join('')}</div>
+      </div>
+    </button>
   `).join('');
   bindHover();
 }
@@ -541,15 +532,28 @@ function initScrollReveal(){
 // ═══════════════════════════════════════════════════════════════════
 function openProjectsFull(){
   const o=document.getElementById('page-projects-full'); if(!o)return;
-  o.style.display='flex'; requestAnimationFrame(()=>o.classList.add('visible'));
-  document.getElementById('proj-detail-view').style.display='none';
-  document.getElementById('proj-grid-view').style.display='flex';
+  o.style.display='flex';
+  o.classList.add('open');
+  document.body.classList.add('projects-overlay-open');
+  const detail=document.getElementById('proj-detail-view');
+  const grid=document.getElementById('proj-grid-view');
+  if(detail) detail.style.display='none';
+  if(grid) grid.style.display='flex';
   buildProjectGrid();
+  const rows=document.getElementById('projGridCards');
+  if(rows) rows.scrollTop=0;
+  requestAnimationFrame(()=>o.classList.add('visible'));
 }
 function closeProjectsFull(){
   const o=document.getElementById('page-projects-full'); if(!o)return;
-  o.classList.remove('visible'); setTimeout(()=>o.style.display='none',400);
+  o.classList.remove('visible');
+  document.body.classList.remove('projects-overlay-open');
+  setTimeout(()=>{
+    o.classList.remove('open');
+    o.style.display='none';
+  },400);
 }
+window.openProjectsFull=openProjectsFull;
 window.closeProjectsFull=closeProjectsFull;
 
 function initCardThumbs(){
@@ -574,6 +578,8 @@ function openDetail(i){
   setTimeout(()=>dv.classList.remove('animating'),800); bindHover();
 }
 function closeDetail(){document.getElementById('proj-detail-view').style.display='none';document.getElementById('proj-grid-view').style.display='flex';}
+window.openDetail=openDetail;
+window.closeDetail=closeDetail;
 
 // ═══════════════════════════════════════════════════════════════════
 // LIGHTBOX
