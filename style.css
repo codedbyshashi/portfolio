@@ -25,10 +25,12 @@ html, body { width: 100%; height: 100%; background: var(--bg); overflow: hidden;
 #galaxy-canvas { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
 
 /* CURSOR */
-#cur { position: fixed; border-radius: 50%; width: 36px; height: 36px; background: transparent; border: 2px solid var(--blue); pointer-events: none; z-index: 999999; transform: translate(-50%,-50%); box-shadow: 0 0 12px var(--blue), inset 0 0 8px rgba(91,200,245,.15); transition: width .2s, height .2s, box-shadow .2s, background .2s; opacity: 0; }
-#cur.hover { width: 52px; height: 52px; background: rgba(91,200,245,.08); box-shadow: 0 0 20px var(--blue), 0 0 50px rgba(91,200,245,.3); }
+#cur { position: fixed; border-radius: 50%; width: 28px; height: 28px; background: rgba(91,200,245,.04); border: 1px solid rgba(125,216,255,.8); pointer-events: none; z-index: 999999; transform: translate(-50%,-50%) scale(1); box-shadow: 0 0 14px rgba(91,200,245,.45), inset 0 0 10px rgba(91,200,245,.12); mix-blend-mode: screen; transition: width .18s ease, height .18s ease, border-color .18s ease, box-shadow .18s ease, background .18s ease, transform .18s ease; opacity: 0; }
+#cur.hover { width: 46px; height: 46px; background: rgba(91,200,245,.12); border-color: rgba(255,255,255,.9); box-shadow: 0 0 22px rgba(91,200,245,.75), 0 0 55px rgba(91,200,245,.22), inset 0 0 14px rgba(255,255,255,.12); }
+#cur.clicking { transform: translate(-50%,-50%) scale(.72); background: rgba(255,255,255,.16); border-color: #fff; }
 #cur.visible { opacity: 1; }
-#curDot { position: fixed; border-radius: 50%; width: 5px; height: 5px; background: var(--blue); pointer-events: none; z-index: 1000000; transform: translate(-50%,-50%); box-shadow: 0 0 6px var(--blue); opacity: 0; }
+#curDot { position: fixed; border-radius: 50%; width: 6px; height: 6px; background: #fff; pointer-events: none; z-index: 1000000; transform: translate(-50%,-50%); box-shadow: 0 0 8px rgba(91,200,245,.95), 0 0 18px rgba(91,200,245,.5); opacity: 0; transition: transform .12s ease, background .12s ease; }
+#curDot.hover { transform: translate(-50%,-50%) scale(.7); background: var(--blue-bright); }
 #curDot.visible { opacity: 1; }
 
 /* ═══════════════════════════════════

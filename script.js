@@ -155,13 +155,25 @@ if(!isTouchDevice){
     curDot.style.left=mx+'px'; curDot.style.top=my+'px';
     if(!cursorVisible){cursorVisible=true;curEl.classList.add('visible');curDot.classList.add('visible');}
   });
-  (function animCursor(){tx+=(mx-tx)*.12;ty+=(my-ty)*.12;curEl.style.left=tx+'px';curEl.style.top=ty+'px';requestAnimationFrame(animCursor);})();
+  document.addEventListener('mousedown',()=>curEl.classList.add('clicking'));
+  document.addEventListener('mouseup',()=>curEl.classList.remove('clicking'));
+  document.addEventListener('mouseleave',()=>{
+    cursorVisible=false;
+    curEl.classList.remove('visible','hover','clicking');
+    curDot.classList.remove('visible','hover');
+  });
+  document.addEventListener('mouseenter',()=>{
+    cursorVisible=true;
+    curEl.classList.add('visible');
+    curDot.classList.add('visible');
+  });
+  (function animCursor(){tx+=(mx-tx)*.18;ty+=(my-ty)*.18;curEl.style.left=tx+'px';curEl.style.top=ty+'px';requestAnimationFrame(animCursor);})();
 }
 function bindHover(){
   if(isTouchDevice) return;
   document.querySelectorAll('a,button,.nav-email,.hr-skill,.proj-card,.pd-btn,.icon-back-btn,.pd-back,.social-item,.cv-side,.pd-stack-tag,.ab-contact-email,.ab-contact-social,.proj-h-screenshot,.proj-see-all-btn,.proj-h-btn,.form-input,.form-textarea,.form-submit-btn').forEach(el=>{
-    el.addEventListener('mouseenter',()=>curEl.classList.add('hover'));
-    el.addEventListener('mouseleave',()=>curEl.classList.remove('hover'));
+    el.addEventListener('mouseenter',()=>{curEl.classList.add('hover');curDot.classList.add('hover');});
+    el.addEventListener('mouseleave',()=>{curEl.classList.remove('hover');curDot.classList.remove('hover');});
   });
 }
 
