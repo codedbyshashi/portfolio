@@ -1,4 +1,4 @@
-// ═══════════════════════════════════════════════════════════════════
+﻿// ═══════════════════════════════════════════════════════════════════
 // GALAXY BACKGROUND
 // ═══════════════════════════════════════════════════════════════════
 (function initGalaxy() {
@@ -133,15 +133,25 @@ const TECH_LINKS = {
   'Pandas':'https://pandas.pydata.org',
   'NLP':'https://www.nltk.org',
   'OpenCV':'https://opencv.org',
-  'Deep Learning':'https://www.tensorflow.org'
+  'Deep Learning':'https://www.tensorflow.org',
+  'Gradio':'https://www.gradio.app',
+  'Gemini':'https://deepmind.google/technologies/gemini/',
+  'OpenRouter':'https://openrouter.ai',
+  'Tavily':'https://tavily.com',
+  'Pydantic':'https://docs.pydantic.dev',
+  'asyncio':'https://docs.python.org/3/library/asyncio.html',
+  'SMTP':'https://docs.python.org/3/library/smtplib.html',
+  'OpenAI Agents SDK':'https://openai.github.io/openai-agents-python/',
+  'Render':'https://render.com'
 };
 
 const PROJECTS=[
   {name:'AI Multi-Agent Healthcare System',category:'Full Stack / AI',desc:'Multi-agent clinical assistant orchestrating document analysis, diagnostic recommendations, and evidence retrieval from medical literature. Parses clinical PDFs with layout-aware extraction, streams real-time responses via FastAPI, and implements agent reliability patterns with fallback mechanisms.',stack:['FastAPI','React','LLM Orchestration','PDF Processing'],github:'https://github.com/codedbyshashi/AI-Multi-Agent-Healthcare',demo:'https://multi-agent-healthcare-two.vercel.app',screenshot:'images/project1.png'},
-  {name:'HR Workflow Designer',category:'Full Stack',desc:'Low-code workflow engine with schema-driven architecture enabling dynamic form generation and conditional logic without hardcoding. Implements validation engine, workflow simulation, and extensible node system for unlimited workflow complexity without core modifications.',stack:['React','Spring Boot','TypeScript','JSON Schema'],github:'https://github.com/codedbyshashi/HR-WORKFLOW',demo:'https://hr-workflow-khaki.vercel.app/',screenshot:'images/project2.png'},
+  // {name:'HR Workflow Designer',category:'Full Stack',desc:'Low-code workflow engine with schema-driven architecture enabling dynamic form generation and conditional logic without hardcoding. Implements validation engine, workflow simulation, and extensible node system for unlimited workflow complexity without core modifications.',stack:['React','Spring Boot','TypeScript','JSON Schema'],github:'https://github.com/codedbyshashi/HR-WORKFLOW',demo:'https://hr-workflow-khaki.vercel.app/',screenshot:'images/project2.png'},
   {name:'Campus Digital Complaint Management System',category:'Full Stack',desc:'Role-based complaint triage system handling SLA-driven escalation. Implements JWT-based role separation, real-time notifications via Server-Sent Events, and state machine workflow ensuring audit trail compliance and predictable service delivery.',stack:['Spring Boot','React','MySQL','JWT'],github:'https://github.com/codedbyshashi/Campus-Digital-Complaint-Management',demo:'#',screenshot:'images/project3.png'},
   {name:'AI Image Enhancement Engine',category:'AI',desc:'End-to-end image processing pipeline leveraging deep learning for quality restoration. Processes multi-format input with adaptive preprocessing, neural upscaling, and artifact mitigation across diverse image characteristics.',stack:['Python','TensorFlow','OpenCV','Deep Learning'],github:'https://github.com/codedbyshashi/AI-IMAGE-ENHANCER',demo:'#',screenshot:'images/project4.png'},
-]; 
+  {name:'Deep Research AI Agent',category:'AI / Multi-Agent Systems',desc:'Autonomous multi-agent research system that plans a research strategy from a user query, generates targeted search queries, runs concurrent web searches via Tavily and Python asyncio, synthesises findings into a structured report with executive summary and follow-up questions, and delivers the report by email. Planner, Search, Writer, and Email agents coordinate through the OpenAI Agents SDK with real-time streaming status updates, deployed via Gradio on Render.',stack:['Python','OpenAI Agents SDK','Gradio','Gemini','OpenRouter','Tavily','Pydantic','asyncio','SMTP','Render'],github:'https://github.com/codedbyshashi/Deep-Research',demo:'https://deep-research-41zf.onrender.com/',screenshot:'images/project5.png'},
+];
 
 // ═══════════════════════════════════════════════════════════════════
 // CURSOR
@@ -273,11 +283,13 @@ window.copyAbEmail=function(e){
 // ═══════════════════════════════════════════════════════════════════
 // QUOTE
 // ═══════════════════════════════════════════════════════════════════
-const FULL_QUOTE=`I design scalable backend systems and frontend architectures that solve real-world engineering problems. My focus spans multi-agent systems, schema-driven architecture, clean REST API design, and production-grade reliability patterns. I approach each system with attention to data flow, failure handling, and maintainable code structure—moving beyond feature delivery to architectural thinking.
+const FULL_QUOTE=`I am a Computer Science student at SRM Institute of Science and Technology, building at the intersection of software engineering and AI. My foundation is in backend development with Java and Spring Boot—designing clean REST APIs, implementing authentication flows, and structuring systems for maintainability and scale. I also build frontend interfaces with React that connect cleanly to backend services.
 
-My projects include a clinical decision support system orchestrating multiple AI agents with real-time streaming, a low-code workflow engine with dynamic form generation and extensible node architecture, and a complaint management platform implementing SLA-driven escalation with event-driven state machines.
+Alongside my core engineering work, I am actively growing into LLM and Agentic AI engineering. I build multi-agent systems that autonomously plan, search, reason, and act—combining Python, the OpenAI Agents SDK, and tools like Tavily to solve problems that go beyond traditional software.
 
-I prepare for product-based engineering roles with deep focus on system architecture, LLM orchestration patterns, database design, and clean code practices. I solve problems from first principles, prioritizing clarity, scalability, and production reliability over quick implementations.`;
+My projects reflect both tracks: a multi-agent deep research system that plans research, executes concurrent web searches, synthesises findings, and delivers reports by email; a clinical decision support system orchestrating AI agents with real-time streaming; and a complaint management platform with SLA-driven escalation and role-based access control.
+
+I approach engineering from first principles—whether designing a backend service, orchestrating LLM agents, or building a data pipeline. I am preparing for product-based software engineering roles where strong fundamentals and the ability to work with intelligent systems both matter.`;
 function buildQuote(){
   const el=document.getElementById('abQuoteText');
   if(!el||el.dataset.built)return; el.dataset.built='1'; el.textContent=FULL_QUOTE;
