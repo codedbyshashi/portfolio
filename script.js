@@ -1,4 +1,4 @@
-﻿// ═══════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════════════
 // GALAXY BACKGROUND
 // ═══════════════════════════════════════════════════════════════════
 (function initGalaxy() {
@@ -102,6 +102,7 @@ function initVideoLoader() {
     setTimeout(function() { if (text2) text2.classList.add('ld-visible'); }, 900);
     setTimeout(launch, 2000);
 
+
     // Progress bar — grows in steps matching boot lines + launch
     var bar = document.getElementById('ld-progress-bar');
     if (bar) {
@@ -122,19 +123,17 @@ function initVideoLoader() {
 const TECH_LINKS = {
   'Java':'https://www.java.com',
   'Spring Boot':'https://spring.io/projects/spring-boot',
+  'Spring Security':'https://spring.io/projects/spring-security',
   'React':'https://react.dev',
   'MySQL':'https://www.mysql.com',
   'REST APIs':'https://restfulapi.net',
   'JWT':'https://jwt.io',
-  'Redux':'https://redux.js.org',
-  'Stripe':'https://stripe.com',
+  'FastAPI':'https://fastapi.tiangolo.com',
+  'Server-Sent Events':'https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events',
   'Python':'https://www.python.org',
-  'Scikit-learn':'https://scikit-learn.org',
-  'Pandas':'https://pandas.pydata.org',
-  'NLP':'https://www.nltk.org',
   'OpenCV':'https://opencv.org',
   'Deep Learning':'https://www.tensorflow.org',
-  'Gradio':'https://www.gradio.app',
+  'TensorFlow':'https://www.tensorflow.org',
   'Gemini':'https://deepmind.google/technologies/gemini/',
   'OpenRouter':'https://openrouter.ai',
   'Tavily':'https://tavily.com',
@@ -142,7 +141,14 @@ const TECH_LINKS = {
   'asyncio':'https://docs.python.org/3/library/asyncio.html',
   'SMTP':'https://docs.python.org/3/library/smtplib.html',
   'OpenAI Agents SDK':'https://openai.github.io/openai-agents-python/',
-  'Render':'https://render.com'
+  'Gradio':'https://www.gradio.app',
+  'Render':'https://render.com',
+  'Vercel':'https://vercel.com',
+  'Git':'https://git-scm.com',
+  'GitHub':'https://github.com',
+  'Postman':'https://www.postman.com',
+  'LLM Orchestration':'https://platform.openai.com/docs/guides/agents',
+  'PDF Processing':'https://pypdf2.readthedocs.io'
 };
 
 const PROJECTS=[
@@ -283,16 +289,20 @@ window.copyAbEmail=function(e){
 // ═══════════════════════════════════════════════════════════════════
 // QUOTE
 // ═══════════════════════════════════════════════════════════════════
-const FULL_QUOTE=`I am a Computer Science student at SRM Institute of Science and Technology, building at the intersection of software engineering and AI. My foundation is in backend development with Java and Spring Boot—designing clean REST APIs, implementing authentication flows, and structuring systems for maintainability and scale. I also build frontend interfaces with React that connect cleanly to backend services.
+const FULL_QUOTE=`I am a Computer Science student at SRM Institute of Science and Technology, building across three tracks: full-stack development, Data Structures & Algorithms, and LLM & Agentic AI engineering.
 
-Alongside my core engineering work, I am actively growing into LLM and Agentic AI engineering. I build multi-agent systems that autonomously plan, search, reason, and act—combining Python, the OpenAI Agents SDK, and tools like Tavily to solve problems that go beyond traditional software.
+My foundation is in backend development with Java and Spring Boot—designing clean REST APIs, implementing authentication flows with JWT and Spring Security, and structuring systems around real-world workflows. I build full-stack applications that connect React frontends to Spring Boot backends, with MySQL for data persistence and Server-Sent Events for real-time communication.
 
-My projects reflect both tracks: a multi-agent deep research system that plans research, executes concurrent web searches, synthesises findings, and delivers reports by email; a clinical decision support system orchestrating AI agents with real-time streaming; and a complaint management platform with SLA-driven escalation and role-based access control.
+Alongside my core engineering work, I practice Data Structures & Algorithms to strengthen algorithmic thinking, problem-solving ability, and complexity analysis—skills that sharpen implementation quality and prepare me for product-based software engineering roles.
 
-I approach engineering from first principles—whether designing a backend service, orchestrating LLM agents, or building a data pipeline. I am preparing for product-based software engineering roles where strong fundamentals and the ability to work with intelligent systems both matter.`;
+I also build LLM and multi-agent AI systems through projects—using Python, the OpenAI Agents SDK, and tools like Tavily, Gemini, and OpenRouter to develop agents that can plan, search, reason, and execute multi-step tasks. My AI projects include a multi-agent deep research system that autonomously plans research, runs concurrent web searches, synthesises findings, and delivers reports by email; and a clinical decision support system that orchestrates AI agents with real-time streaming via FastAPI.
+
+I approach engineering from first principles—whether designing a backend service, practising algorithmic problem-solving, or building an agent-based system. I am preparing for product-based software engineering roles where strong fundamentals, problem-solving skills, and the ability to work with intelligent systems all matter.`;
 function buildQuote(){
   const el=document.getElementById('abQuoteText');
-  if(!el||el.dataset.built)return; el.dataset.built='1'; el.textContent=FULL_QUOTE;
+  if(!el||el.dataset.built)return; el.dataset.built='1';
+  const paragraphs = FULL_QUOTE.split('\n\n');
+  el.innerHTML = paragraphs.map(p => `<p class="ab-quote-p">${p.trim()}</p>`).join('');
 }
 
 function formatProjectName(p){
@@ -361,6 +371,7 @@ function buildProjectGrid(){
       <div class="pc-img">
         <img class="pc-thumb-img" src="${p.screenshot||''}" alt="${p.name}" onload="this.classList.add('loaded'); this.nextElementSibling.style.display='none';" onerror="this.style.display='none'">
         <div class="pc-img-inner"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M7 21h10"/><path d="M12 17v4"/></svg></div>
+        <div class="pc-hover-overlay"><span>View Details &rarr;</span></div>
       </div>
       <div class="pc-body">
         <div class="pc-title">${formatProjectName(p)}</div>
@@ -652,47 +663,28 @@ function openDetail(i){
 function closeDetail(){document.getElementById('proj-detail-view').style.display='none';document.getElementById('proj-grid-view').style.display='flex';}
 window.openDetail=openDetail;
 window.closeDetail=closeDetail;
-
 // ═══════════════════════════════════════════════════════════════════
-// LIGHTBOX
-// ═══════════════════════════════════════════════════════════════════
-window.openScreenshot=function(src){
-  if(!src)return;
-  let lb=document.getElementById('screenshotLightbox');
-  if(!lb){
-    lb=document.createElement('div'); lb.id='screenshotLightbox';
-    lb.innerHTML=`<div class="slb-bg"></div><div class="slb-inner"><img id="slbImg" src=""><button class="slb-close" onclick="closeScreenshot()">&#10005;</button></div>`;
-    document.body.appendChild(lb);
-    lb.querySelector('.slb-bg').addEventListener('click',closeScreenshot);
-    if(!isTouchDevice){const cl=lb.querySelector('.slb-close');cl.addEventListener('mouseenter',()=>curEl.classList.add('hover'));cl.addEventListener('mouseleave',()=>curEl.classList.remove('hover'));}
-  }
-  document.getElementById('slbImg').src=src;
-  lb.classList.add('slb-open'); document.body.style.overflow='hidden';
-};
-window.closeScreenshot=function(){
-  const lb=document.getElementById('screenshotLightbox'); if(lb)lb.classList.remove('slb-open');
-  document.body.style.overflow='';
-};
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeScreenshot();});
-
-// ═══════════════════════════════════════════════════════════════════
-// GLOBE — 3D tech stack (unchanged)
+// GLOBE — 3D tech stack
 // ═══════════════════════════════════════════════════════════════════
 const SKILLS=[
   {name:'Java',color:'#f89820',url:'https://www.java.com',svg:'<path fill="#f89820" d="M12 2c1.3 1.1 2 2.2 2 3.4 0 1.4-.8 2.5-2.2 3.7-1.1.9-1.4 1.5-1.4 2.2 0 .8.5 1.4 1.7 2.1 1.9 1.1 2.9 2.3 2.9 4 0 2.8-2.4 4.6-6.1 4.6-1.8 0-3.5-.4-4.9-1.1l.9-2c1.2.6 2.6.9 4 .9 2.1 0 3.5-.8 3.5-2.1 0-.9-.5-1.5-1.9-2.3-1.8-1-2.7-2.1-2.7-3.7 0-1.4.6-2.6 2.2-3.9 1.1-.9 1.4-1.4 1.4-2.1 0-.6-.3-1.1-1.2-1.9z"/><path fill="#5382a1" d="M6 17.5c1.2.7 3.2 1.1 5.2 1.1 4 0 7.2-1.3 7.2-2.8 0-.5-.4-1-1.2-1.4.3.3.4.5.4.8 0 1.4-2.7 2.4-6.4 2.4-2.1 0-4-.3-5.2-1.1z"/>'},
   {name:'Spring Boot',color:'#6db33f',url:'https://spring.io/projects/spring-boot',svg:'<path fill="#6db33f" d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm4.7 6.2c-.5 2.8-3.1 5.1-6 6-1.4.4-2.8.5-3.9.2 1.3-1.1 2.8-2.1 4.6-2.7.8-.3 1.7-.5 2.6-.6-.7-.4-1.6-.6-2.6-.6-1.5 0-3 .4-4.3 1.2 1-2.3 3.6-3.9 6.4-3.9 1.1 0 2.2.2 3.2.4z"/>'},
-  {name:'React',color:'#61dafb',url:'https://react.dev',svg:'<path fill="#61dafb" d="M12 9.5c-1.4 0-2.5 1.1-2.5 2.5s1.1 2.5 2.5 2.5 2.5-1.1 2.5-2.5S13.4 9.5 12 9.5z"/><path fill="#61dafb" d="M12 3.5c-2.2 0-4.3.5-5.9 1.3C3.9 6 2.8 7.5 2.8 9.1c0 1.7 1.2 3.2 3.3 4.2 1.7.8 3.8 1.2 5.9 1.2s4.3-.4 5.9-1.2c2.1-1 3.3-2.5 3.3-4.2 0-1.6-1.1-3.1-3.3-4.3-1.6-.8-3.7-1.3-5.9-1.3zm0 2c3.7 0 7 1.4 7 3.6s-3.3 3.4-7 3.4-7-1.2-7-3.4 3.3-3.6 7-3.6z"/><path fill="#61dafb" d="M7.2 6.3c-1.1 1.9-1.9 4-2.2 5.9-.4 2.4-.1 4.4 1 5.5.8.8 1.9 1.1 3.2 1.1 1 0 2.2-.2 3.4-.7 1.9-.7 3.8-1.9 5.3-3.3 1.5-1.4 2.7-3.2 3.4-5 .8-2 .8-3.8-.2-4.8-.7-.8-1.8-1.1-3.1-1.1-1.1 0-2.3.3-3.6.8-1.9.8-3.7 1.9-5.2 3.6zm1.7 1.1c1.3-1.3 2.8-2.3 4.4-3 1-.4 1.9-.7 2.8-.7.8 0 1.4.2 1.7.5.8.8.2 2.7-.7 4.6-.8 1.7-2 3.3-3.4 4.5-1.3 1.3-2.9 2.4-4.5 3-1.9.8-3.8 1.2-4.5.5-.8-.8-.4-2.8.4-4.7.6-1.6 1.7-3.1 3-4.7z"/>'},
-  {name:'MySQL',color:'#00758f',url:'https://www.mysql.com',svg:'<path fill="#00758f" d="M2 5.5C2 4.1 6.5 3 12 3s10 1.1 10 2.5v13c0 1.4-4.5 2.5-10 2.5S2 19.9 2 18.5v-13z"/><path fill="#f29111" d="M2 9c0 1.4 4.5 2.5 10 2.5S22 10.4 22 9"/><path fill="#f29111" d="M2 13c0 1.4 4.5 2.5 10 2.5S22 14.4 22 13"/><ellipse fill="#f29111" cx="12" cy="5.5" rx="10" ry="2.5"/>'},
+  {name:'React',color:'#61dafb',url:'https://react.dev',svg:'<path fill="#61dafb" d="M12 9.5c-1.4 0-2.5 1.1-2.5 2.5s1.1 2.5 2.5 2.5 2.5-1.1 2.5-2.5S13.4 9.5 12 9.5z"/><path fill="#61dafb" d="M12 3.5c-2.2 0-4.3.5-5.9 1.3C3.9 6 2.8 7.5 2.8 9.1c0 1.7 1.2 3.2 3.3 4.2 1.7.8 3.8 1.2 5.9 1.2s4.3-.4 5.9-1.2c2.1-1 3.3-2.5 3.3-4.2 0-1.6-1.1-3.1-3.3-4.3-1.6-.8-3.7-1.3-5.9-1.3zm0 2c3.7 0 7 1.4 7 3.6s-3.3 3.4-7 3.4-7-1.2-7-3.4 3.3-3.6 7-3.6z"/>'},
+  {name:'MySQL',color:'#00758f',url:'https://www.mysql.com',svg:'<path fill="#00758f" d="M2 5.5C2 4.1 6.5 3 12 3s10 1.1 10 2.5v13c0 1.4-4.5 2.5-10 2.5S2 19.9 2 18.5v-13z"/><ellipse fill="#f29111" cx="12" cy="5.5" rx="10" ry="2.5"/>'},
   {name:'REST APIs',color:'#5bc8f5',url:'https://restfulapi.net',svg:'<rect x="3" y="5" width="18" height="14" rx="2" fill="#5bc8f5"/><path fill="#071018" d="M7 9h10v2H7zm0 4h7v2H7z"/>'},
-  {name:'JWT',color:'#d63aff',url:'https://jwt.io',svg:'<circle cx="12" cy="6" r="2.5" fill="#d63aff"/><circle cx="6.5" cy="12" r="2.5" fill="#00c4cc"/><circle cx="17.5" cy="12" r="2.5" fill="#f7df1e"/><circle cx="12" cy="18" r="2.5" fill="#ff6b6b"/><path fill="none" stroke="#ffffff" stroke-width="1.2" d="M12 8.5v7M9 12h6"/>'},
-  {name:'Redux',color:'#764abc',url:'https://redux.js.org',svg:'<path fill="#764abc" d="M16.6 15.1c.5.4.7.9.7 1.5 0 1.2-1 2.1-2.2 2.1-.8 0-1.5-.4-1.9-1.1l-2.4.2c-.5.9-1.4 1.5-2.4 1.5-1.6 0-2.8-1.3-2.8-2.8 0-1.2.8-2.3 2-2.7l.4-2.8C6.7 10.5 6 9.4 6 8.1 6 6.4 7.4 5 9.1 5c1.3 0 2.4.8 2.8 2l2.5.4c.5-.9 1.4-1.5 2.4-1.5 1.6 0 2.8 1.3 2.8 2.8 0 1.2-.8 2.3-1.9 2.7zm-7.3-8.4c-.8 0-1.5.6-1.5 1.5S8.5 9.7 9.3 9.7s1.5-.6 1.5-1.5-.7-1.5-1.5-1.5zm7.1.7c-.8 0-1.5.6-1.5 1.5s.6 1.5 1.5 1.5 1.5-.7 1.5-1.5-.7-1.5-1.5-1.5zM8.5 14.5c-.8 0-1.5.6-1.5 1.5s.6 1.5 1.5 1.5S10 16.8 10 16s-.7-1.5-1.5-1.5zm6.4.5c-.8 0-1.5.6-1.5 1.5s.6 1.5 1.5 1.5 1.5-.6 1.5-1.5-.7-1.5-1.5-1.5z"/>'},
-  {name:'Stripe',color:'#635bff',url:'https://stripe.com',svg:'<rect width="24" height="24" rx="4" fill="#635bff"/><path fill="#fff" d="M13.1 9.3c-1.2 0-2 .5-2 1.2 0 .8.6 1.1 1.9 1.4 1.8.4 3 .9 3 2.7 0 1.9-1.5 3.1-3.9 3.1-1 0-2-.2-2.9-.7v-2.1c.9.5 1.9.9 2.9.9.9 0 1.4-.3 1.4-.8 0-.6-.5-.8-1.7-1.1-1.9-.4-3.2-1-3.2-3 0-1.8 1.5-3.1 3.8-3.1.9 0 1.8.2 2.6.6v2c-.9-.4-1.4-.6-1.9-.6z"/>'},
-  {name:'Python',color:'#3776ab',url:'https://www.python.org',svg:'<path fill="#3776ab" d="M12 2c-4.1 0-3.8 1.8-3.8 1.8v1.9H12v.6H6.8S4 6 4 9.6 6.4 13 6.4 13h1.4v-2S7.7 8.6 10.2 8.6H14c2.1 0 3.8-1.7 3.8-3.8V3.8S18.4 2 12 2z"/><circle cx="9.8" cy="4.2" r=".8" fill="#fff"/><path fill="#ffd43b" d="M12 22c4.1 0 3.8-1.8 3.8-1.8v-1.9H12v-.6h5.2s2.8-.3 2.8-3.9-2.4-3.4-2.4-3.4h-1.4v2s.1 2.4-2.4 2.4H10c-2.1 0-3.8 1.7-3.8 3.8v1.1S5.6 22 12 22z"/><circle cx="14.2" cy="19.8" r=".8" fill="#fff"/>'},
-  {name:'Scikit-learn',color:'#f7931e',url:'https://scikit-learn.org',svg:'<circle cx="8" cy="9" r="4" fill="#f7931e"/><circle cx="16" cy="15" r="4" fill="#29abe2"/><path fill="none" stroke="#fff" stroke-width="1.5" d="M10.5 11.5l3 1"/>'},
-  {name:'Pandas',color:'#150458',url:'https://pandas.pydata.org',svg:'<rect x="4" y="4" width="4" height="16" fill="#150458"/><rect x="10" y="4" width="4" height="16" fill="#e70488"/><rect x="16" y="4" width="4" height="16" fill="#150458"/>'},
-  {name:'NLP',color:'#00b894',url:'https://www.nltk.org',svg:'<path fill="#00b894" d="M4 18V6h3l5 7V6h3v12h-3l-5-7v7z"/><path fill="#55efc4" d="M16 6h4v12h-4z"/>'},
+  {name:'JWT',color:'#d63aff',url:'https://jwt.io',svg:'<circle cx="12" cy="6" r="2.5" fill="#d63aff"/><circle cx="6.5" cy="12" r="2.5" fill="#00c4cc"/><circle cx="17.5" cy="12" r="2.5" fill="#f7df1e"/><circle cx="12" cy="18" r="2.5" fill="#ff6b6b"/>'},
+  {name:'FastAPI',color:'#009688',url:'https://fastapi.tiangolo.com',svg:'<path fill="#009688" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14l-1-5H8l4-7v5h2l-4 7z"/>'},
+  {name:'Python',color:'#3776ab',url:'https://www.python.org',svg:'<path fill="#3776ab" d="M12 2c-4.1 0-3.8 1.8-3.8 1.8v1.9H12v.6H6.8S4 6 4 9.6 6.4 13 6.4 13h1.4v-2S7.7 8.6 10.2 8.6H14c2.1 0 3.8-1.7 3.8-3.8V3.8S18.4 2 12 2z"/><path fill="#ffd43b" d="M12 22c4.1 0 3.8-1.8 3.8-1.8v-1.9H12v-.6h5.2s2.8-.3 2.8-3.9-2.4-3.4-2.4-3.4h-1.4v2s.1 2.4-2.4 2.4H10c-2.1 0-3.8 1.7-3.8 3.8v1.1S5.6 22 12 22z"/>'},
+  {name:'OpenAI SDK',color:'#412991',url:'https://openai.github.io/openai-agents-python/',svg:'<circle cx="12" cy="12" r="10" fill="#412991"/><path fill="#fff" d="M16.5 10.5a3 3 0 00-5.8-1A3 3 0 007 12a3 3 0 005.8 1 3 3 0 003.7-2.5z"/>'},
+  {name:'Pydantic',color:'#e92063',url:'https://docs.pydantic.dev',svg:'<path fill="#e92063" d="M12 2L4 7v5l8 5 8-5V7L12 2z"/>'},
+  {name:'Gemini',color:'#4285f4',url:'https://deepmind.google/technologies/gemini/',svg:'<path fill="#4285f4" d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 4l2.5 5.5H9.5L12 6zm0 12l-2.5-5.5h5L12 18z"/>'},
+  {name:'OpenRouter',color:'#ff6b35',url:'https://openrouter.ai',svg:'<path fill="#ff6b35" d="M12 2l9 5v10l-9 5-9-5V7l9-5z"/>'},
+  {name:'TensorFlow',color:'#ff6f00',url:'https://www.tensorflow.org',svg:'<path fill="#ff6f00" d="M12 2l8 4.6v10.8L12 22l-8-4.6V6.6L12 2zm0 3.1L7 7.9v8.2l5 2.8 5-2.8V7.9l-5-2.8z"/><path fill="#fff" d="M8.5 9H15v2H13v5h-2v-5H8.5z"/>'},
   {name:'OpenCV',color:'#ff4d4f',url:'https://opencv.org',svg:'<circle cx="9" cy="8" r="4" fill="#ff4d4f"/><circle cx="15" cy="8" r="4" fill="#52c41a" fill-opacity=".9"/><circle cx="12" cy="14" r="4" fill="#1890ff" fill-opacity=".9"/>'},
-  {name:'Deep Learning',color:'#ff6f00',url:'https://www.tensorflow.org',svg:'<path fill="#ff6f00" d="M12 2l8 4.6v10.8L12 22l-8-4.6V6.6L12 2zm0 3.1L7 7.9v8.2l5 2.8 5-2.8V7.9l-5-2.8z"/><path fill="#fff" d="M8.5 9H15v2H13v5h-2v-5H8.5z"/>'}
+  {name:'Git',color:'#f05032',url:'https://git-scm.com',svg:'<path fill="#f05032" d="M21.8 11.2l-9-9a1.1 1.1 0 00-1.6 0L9.4 4l2 2a1.3 1.3 0 011.6 1.7l1.9 1.9a1.3 1.3 0 011.7 1.6 1.3 1.3 0 11-1.3.3L13.5 9.5v5.2a1.3 1.3 0 11-1.1 0V9.4a1.3 1.3 0 01-.7-1.7L9.7 5.7 3.2 12.2a1.1 1.1 0 000 1.6l9 9a1.1 1.1 0 001.6 0l8-8a1.1 1.1 0 000-1.6z"/>'},
+  {name:'Postman',color:'#ff6c37',url:'https://www.postman.com',svg:'<circle cx="12" cy="12" r="10" fill="#ff6c37"/>'},
+  {name:'Render',color:'#46e3b7',url:'https://render.com',svg:'<rect x="3" y="3" width="18" height="18" rx="3" fill="#46e3b7"/>'},
+  {name:'DSA',color:'#5bc8f5',url:'https://en.wikipedia.org/wiki/Data_structure',svg:'<circle cx="12" cy="12" r="10" fill="none" stroke="#5bc8f5" stroke-width="1.8"/><path fill="none" stroke="#5bc8f5" stroke-width="1.8" d="M8 8h8M8 12h8M8 16h5"/>'}
 ];
 
 function initCareerLine(){
